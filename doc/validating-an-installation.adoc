@@ -1,0 +1,19 @@
+:_mod-docs-content-type: ASSEMBLY
+:keywords: ham, egg, cheese
+[id="validating-an-installation"]
+= Validating an installation
+include::_attributes/common-attributes.adoc[]
+:context: validating-an-installation
+
+toc::[]
+
+You can check the status of an {product-title} cluster after an installation by following the procedures in this document.
+
+//Reviewing the installation log
+include::modules/reviewing-the-installation-log.adoc[leveloffset=+1]
+
+//Viewing the image pull source
+include::modules/viewing-the-image-pull-source.adoc[leveloffset=+1]
+
+//Getting cluster version, status, and update details
+include::modules/getting-cluster-version-status-and-update-details.adoc[leveloffset=+1]

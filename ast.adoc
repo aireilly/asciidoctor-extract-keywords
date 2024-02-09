@@ -1,0 +1,462 @@
+:_mod-docs-content-type: ASSEMBLY
+:keywords: ham, egg, cheese
+[id="validating-an-installation"]
+= Validating an installation
+// START PROCESSING: /home/aireilly/asciidoctor-extract-keywords/doc/_attributes/common-attributes.adoc
+// The {product-title} attribute provides the context-sensitive name of the relevant OpenShift distribution, for example, "OpenShift Container Platform" or "OKD". The {product-version} attribute provides the product version relative to the distribution, for example "4.9".
+// {product-title} and {product-version} are parsed when AsciiBinder queries the _distro_map.yml file in relation to the base branch of a pull request.
+// See https://github.com/openshift/openshift-docs/blob/main/contributing_to_docs/doc_guidelines.adoc#product-name-and-version for more information on this topic.
+// Other common attributes are defined in the following lines:
+:data-uri:
+:icons:
+:experimental:
+:toc: macro
+:toc-title:
+:imagesdir: images
+:prewrap!:
+:op-system-first: Red Hat Enterprise Linux CoreOS (RHCOS)
+:op-system: RHCOS
+:op-system-lowercase: rhcos
+:op-system-base: RHEL
+:op-system-base-full: Red Hat Enterprise Linux (RHEL)
+:op-system-version: 9.x
+ifdef::openshift-origin[]
+:op-system-first: Fedora CoreOS (FCOS)
+:op-system: FCOS
+:op-system-lowercase: fcos
+:op-system-base: Fedora
+:op-system-base-full: Fedora
+:op-system-version: 35
+endif::[]
+:tsb-name: Template Service Broker
+:kebab: image:kebab.png[title="Options menu"]
+ifndef::openshift-origin[]
+:rh-openstack-first: Red Hat OpenStack Platform (RHOSP)
+:rh-openstack: RHOSP
+endif::openshift-origin[]
+ifdef::openshift-origin[]
+:rh-openstack-first: OpenStack
+:rh-openstack: OpenStack
+endif::openshift-origin[]
+:ai-full: Assisted Installer
+:cluster-manager-first: Red Hat OpenShift Cluster Manager
+:cluster-manager: OpenShift Cluster Manager
+:cluster-manager-url: link:https://console.redhat.com/openshift[OpenShift Cluster Manager Hybrid Cloud Console]
+:cluster-manager-url-pull: link:https://console.redhat.com/openshift/install/pull-secret[pull secret from the Red Hat OpenShift Cluster Manager]
+:insights-advisor-url: link:https://console.redhat.com/openshift/insights/advisor/[Insights Advisor]
+:hybrid-console: Red Hat Hybrid Cloud Console
+:hybrid-console-second: Hybrid Cloud Console
+// OADP attributes
+:oadp-first: OpenShift API for Data Protection (OADP)
+:oadp-full: OpenShift API for Data Protection
+:oadp-short: OADP
+:oc-first: pass:quotes[OpenShift CLI (`oc`)]
+:product-registry: OpenShift image registry
+:rh-storage-first: Red Hat OpenShift Data Foundation
+:rh-storage: OpenShift Data Foundation
+:rh-rhacm-first: Red Hat Advanced Cluster Management (RHACM)
+:rh-rhacm: RHACM
+:rh-rhacm-version: 2.9
+:sandboxed-containers-first: OpenShift sandboxed containers
+:sandboxed-containers-operator: OpenShift sandboxed containers Operator
+:sandboxed-containers-version: 1.5
+:sandboxed-containers-version-z: 1.5.0
+:sandboxed-containers-legacy-version: 1.4.1
+:cert-manager-operator: cert-manager Operator for Red Hat OpenShift
+:secondary-scheduler-operator-full: Secondary Scheduler Operator for Red Hat OpenShift
+:secondary-scheduler-operator: Secondary Scheduler Operator
+:descheduler-operator: Kube Descheduler Operator
+// Backup and restore
+:velero-domain: velero.io
+:velero-version: 1.12
+:launch: image:app-launcher.png[title="Application Launcher"]
+:mtc-short: MTC
+:mtc-full: Migration Toolkit for Containers
+:mtc-version: 1.8
+:mtc-version-z: 1.8.2
+// builds (Valid only in 4.11 and later)
+:builds-v2title: Builds for Red Hat OpenShift
+:builds-v2shortname: OpenShift Builds v2
+:builds-v1shortname: OpenShift Builds v1
+ifdef::openshift-origin[]
+:builds-v2title: Shipwright
+:builds-v2shortname: Shipwright
+:builds-v1shortname: Builds v1
+endif::[]
+//gitops
+:gitops-title: Red Hat OpenShift GitOps
+:gitops-shortname: GitOps
+:gitops-ver: 1.1
+:rh-app-icon: image:red-hat-applications-menu-icon.jpg[title="Red Hat applications"]
+//pipelines
+:pipelines-title: Red Hat OpenShift Pipelines
+:pipelines-shortname: OpenShift Pipelines
+:pipelines-ver: pipelines-1.13
+:pipelines-version-number: 1.13
+:tekton-chains: Tekton Chains
+:tekton-hub: Tekton Hub
+:artifact-hub: Artifact Hub
+:pac: Pipelines as Code
+//odo
+:odo-title: odo
+//OpenShift Kubernetes Engine
+:oke: OpenShift Kubernetes Engine
+//OpenShift Platform Plus
+:opp: OpenShift Platform Plus
+//openshift virtualization (cnv)
+:VirtProductName: OpenShift Virtualization
+:VirtVersion: 4.15
+:HCOVersion: 4.15.0
+:CNVNamespace: openshift-cnv
+:CNVOperatorDisplayName: OpenShift Virtualization Operator
+:CNVSubscriptionSpecSource: redhat-operators
+:CNVSubscriptionSpecName: kubevirt-hyperconverged
+:delete: image:delete.png[title="Delete"]
+ifdef::openshift-origin[]
+:VirtProductName: OKD Virtualization
+:CNVNamespace: kubevirt-hyperconverged
+:CNVOperatorDisplayName: KubeVirt HyperConverged Cluster Operator
+:CNVSubscriptionSpecSource: community-operators
+:CNVSubscriptionSpecName: community-kubevirt-hyperconverged
+endif::[]
+//distributed tracing
+:DTProductName: Red Hat OpenShift distributed tracing platform
+:DTShortName: distributed tracing platform
+:DTProductVersion: 3.0
+:JaegerName: Red Hat OpenShift distributed tracing platform (Jaeger)
+:JaegerShortName: distributed tracing platform (Jaeger)
+:JaegerVersion: 1.51.0
+:OTELName: Red Hat build of OpenTelemetry
+:OTELShortName: Red Hat build of OpenTelemetry
+:OTELOperator: Red Hat build of OpenTelemetry Operator
+:OTELVersion: 0.89.0
+:TempoName: Red Hat OpenShift distributed tracing platform (Tempo)
+:TempoShortName: distributed tracing platform (Tempo)
+:TempoOperator: Tempo Operator
+:TempoVersion: 2.3.0
+//telco
+ifdef::telco-ran[]
+:rds: telco RAN DU
+:rds-caps: Telco RAN DU
+:rds-first: Telco RAN distributed unit (DU)
+endif::[]
+ifdef::telco-core[]
+:rds: telco core
+:rds-caps: Telco core
+endif::[]
+//logging
+:logging: logging
+:logging-uc: Logging
+:for: for Red Hat OpenShift
+:clo: Red Hat OpenShift Logging Operator
+:loki-op: Loki Operator
+:es-op: OpenShift Elasticsearch Operator
+:log-plug: logging Console plugin
+//power monitoring
+:PM-title-c: Power monitoring for Red Hat OpenShift
+:PM-title: power monitoring for Red Hat OpenShift
+:PM-shortname: power monitoring
+:PM-shortname-c: Power monitoring
+:PM-operator: Power monitoring Operator
+:PM-kepler: Kepler
+//serverless
+:ServerlessProductName: OpenShift Serverless
+:ServerlessProductShortName: Serverless
+:ServerlessOperatorName: OpenShift Serverless Operator
+:FunctionsProductName: OpenShift Serverless Functions
+//service mesh v2
+:product-dedicated: Red Hat OpenShift Dedicated
+:product-rosa: Red Hat OpenShift Service on AWS
+:SMProductName: Red Hat OpenShift Service Mesh
+:SMProductShortName: Service Mesh
+:SMProductVersion: 2.4.5
+:MaistraVersion: 2.4
+//Service Mesh v1
+:SMProductVersion1x: 1.1.18.2
+//Windows containers
+:productwinc: Red Hat OpenShift support for Windows Containers
+// Red Hat Quay Container Security Operator
+:rhq-cso: Red Hat Quay Container Security Operator
+// Red Hat Quay
+:quay: Red Hat Quay
+:sno: single-node OpenShift
+:sno-caps: Single-node OpenShift
+//TALO and Redfish events Operators
+:cgu-operator-first: Topology Aware Lifecycle Manager (TALM)
+:cgu-operator-full: Topology Aware Lifecycle Manager
+:cgu-operator: TALM
+:redfish-operator: Bare Metal Event Relay
+//Formerly known as CodeReady Containers and CodeReady Workspaces
+:openshift-local-productname: Red Hat OpenShift Local
+:openshift-dev-spaces-productname: Red Hat OpenShift Dev Spaces
+:factory-prestaging-tool: factory-precaching-cli tool
+:factory-prestaging-tool-caps: Factory-precaching-cli tool
+:openshift-networking: Red Hat OpenShift Networking
+// TODO - this probably needs to be different for OKD
+//ifdef::openshift-origin[]
+//:openshift-networking: OKD Networking
+//endif::[]
+// logical volume manager storage
+:lvms-first: Logical volume manager storage (LVM Storage)
+:lvms: LVM Storage
+//Operator SDK version
+:osdk_ver: 1.31.0
+//Operator SDK version that shipped with the previous OCP 4.x release
+:osdk_ver_n1: 1.28.0
+//Next-gen (OCP 4.14+) Operator Lifecycle Manager, aka "v1"
+:olmv1: OLM 1.0
+:olmv1-first: Operator Lifecycle Manager (OLM) 1.0
+:ztp-first: GitOps Zero Touch Provisioning (ZTP)
+:ztp: GitOps ZTP
+:3no: three-node OpenShift
+:3no-caps: Three-node OpenShift
+:run-once-operator: Run Once Duration Override Operator
+// Web terminal
+:web-terminal-op: Web Terminal Operator
+:devworkspace-op: DevWorkspace Operator
+:secrets-store-driver: Secrets Store CSI driver
+:secrets-store-operator: Secrets Store CSI Driver Operator
+//AWS STS
+:sts-first: Security Token Service
+:sts-full: Security Token Service (STS)
+:sts-short: STS
+//Cloud provider names
+//AWS
+:aws-first: Amazon Web Services
+:aws-full: Amazon Web Services (AWS)
+:aws-short: AWS
+//GCP
+:gcp-first: Google Cloud Platform (GCP)
+:gcp-full: Google Cloud Platform
+:gcp-short: GCP
+//alibaba cloud
+:alibaba: Alibaba Cloud
+// IBM general
+:ibm-name: IBM(R)
+:ibm-title: IBM
+// IBM Cloud
+:ibm-cloud-name: IBM Cloud(R)
+:ibm-cloud-title: IBM Cloud
+// IBM Cloud Bare Metal (Classic)
+:ibm-cloud-bm: IBM Cloud(R) Bare Metal (Classic)
+:ibm-cloud-bm-title: IBM Cloud Bare Metal (Classic)
+// IBM Power
+:ibm-power-name: IBM Power(R)
+:ibm-power-title: IBM Power
+:ibm-power-server-name: IBM Power(R) Virtual Server
+:ibm-power-server-title: IBM Power Virtual Server
+// IBM zSystems
+:ibm-z-name: IBM Z(R)
+:ibm-z-title: IBM Z
+:ibm-linuxone-name: IBM(R) LinuxONE
+:ibm-linuxone-title: IBM LinuxONE
+//Azure
+:azure-full: Microsoft Azure
+:azure-short: Azure
+//vSphere
+:vmw-full: VMware vSphere
+:vmw-short: vSphere
+//Oracle
+:oci-first: Oracle(R) Cloud Infrastructure
+:oci: OCI
+:ocvs-first: Oracle(R) Cloud VMware Solution (OCVS)
+:ocvs: OCVS
+// Cluster Observability Operator
+:coo-first: Cluster Observability Operator (COO)
+:coo-full: Cluster Observability Operator
+:coo-short: COO
+//ODF
+:odf-first: Red Hat OpenShift Data Foundation (ODF)
+:odf-full: Red Hat OpenShift Data Foundation
+:odf-short: ODF
+
+// END PROCESSING: /home/aireilly/asciidoctor-extract-keywords/doc/_attributes/common-attributes.adoc
+:context: validating-an-installation
+
+toc::[]
+
+You can check the status of an {product-title} cluster after an installation by following the procedures in this document.
+
+//Reviewing the installation log
+// START PROCESSING: /home/aireilly/asciidoctor-extract-keywords/doc/modules/reviewing-the-installation-log.adoc
+// Module included in the following assemblies:
+//
+// *installing/validating-an-installation.adoc
+
+:_mod-docs-content-type: PROCEDURE
+:keywords: butter, bread, chicken
+[id="reviewing-the-installation-log_{context}"]
+= Reviewing the installation log
+
+You can review a summary of an installation in the {product-title} installation log. If an installation succeeds, the information required to access the cluster is included in the log.
+
+.Prerequisites
+
+* You have access to the installation host.
+
+.Procedure
+
+* Review the `.openshift_install.log` log file in the installation directory on your installation host:
++
+[source,terminal]
+----
+$ cat <install_dir>/.openshift_install.log
+----
++
+.Example output
++
+Cluster credentials are included at the end of the log if the installation is successful, as outlined in the following example:
++
+[source,terminal]
+----
+...
+time="2020-12-03T09:50:47Z" level=info msg="Install complete!"
+time="2020-12-03T09:50:47Z" level=info msg="To access the cluster as the system:admin user when using 'oc', run 'export KUBECONFIG=/home/myuser/install_dir/auth/kubeconfig'"
+time="2020-12-03T09:50:47Z" level=info msg="Access the OpenShift web-console here: https://console-openshift-console.apps.mycluster.example.com"
+time="2020-12-03T09:50:47Z" level=info msg="Login to the console with user: \"kubeadmin\", and password: \"password\""
+time="2020-12-03T09:50:47Z" level=debug msg="Time elapsed per stage:"
+time="2020-12-03T09:50:47Z" level=debug msg="    Infrastructure: 6m45s"
+time="2020-12-03T09:50:47Z" level=debug msg="Bootstrap Complete: 11m30s"
+time="2020-12-03T09:50:47Z" level=debug msg=" Bootstrap Destroy: 1m5s"
+time="2020-12-03T09:50:47Z" level=debug msg=" Cluster Operators: 17m31s"
+time="2020-12-03T09:50:47Z" level=info msg="Time elapsed: 37m26s"
+----
+
+// END PROCESSING: /home/aireilly/asciidoctor-extract-keywords/doc/modules/reviewing-the-installation-log.adoc
+
+//Viewing the image pull source
+// START PROCESSING: /home/aireilly/asciidoctor-extract-keywords/doc/modules/viewing-the-image-pull-source.adoc
+// Module included in the following assemblies:
+//
+// *installing/validating-an-installation.adoc
+
+:_mod-docs-content-type: PROCEDURE
+:keywords: avocados, tomatoes, pesto
+[id="viewing-the-image-pull-source_{context}"]
+= Viewing the image pull source
+
+For clusters with unrestricted network connectivity, you can view the source of your pulled images by using a command on a node, such as `crictl images`.
+
+However, for disconnected installations, to view the source of pulled images, you must review the CRI-O logs to locate the `Trying to access` log entry, as shown in the following procedure. Other methods to view the image pull source, such as the `crictl images` command, show the non-mirrored image name, even though the image is pulled from the mirrored location.
+
+.Prerequisites
+
+* You have access to the cluster as a user with the `cluster-admin` role.
+
+.Procedure
+
+* Review the CRI-O logs for a master or worker node:
++
+[source,terminal]
+----
+$  oc adm node-logs <node_name> -u crio
+----
++
+.Example output
++
+The `Trying to access` log entry indicates where the image is being pulled from.
++
+[source,terminal]
+----
+...
+Mar 17 02:52:50 ip-10-0-138-140.ec2.internal crio[1366]: time="2021-08-05 10:33:21.594930907Z" level=info msg="Pulling image: quay.io/openshift-release-dev/ocp-release:4.10.0-ppc64le" id=abcd713b-d0e1-4844-ac1c-474c5b60c07c name=/runtime.v1alpha2.ImageService/PullImage
+Mar 17 02:52:50 ip-10-0-138-140.ec2.internal crio[1484]: time="2021-03-17 02:52:50.194341109Z" level=info msg="Trying to access \"li0317gcp1.mirror-registry.qe.gcp.devcluster.openshift.com:5000/ocp/release@sha256:1926eae7cacb9c00f142ec98b00628970e974284b6ddaf9a6a086cb9af7a6c31\""
+Mar 17 02:52:50 ip-10-0-138-140.ec2.internal crio[1484]: time="2021-03-17 02:52:50.226788351Z" level=info msg="Trying to access \"li0317gcp1.mirror-registry.qe.gcp.devcluster.openshift.com:5000/ocp/release@sha256:1926eae7cacb9c00f142ec98b00628970e974284b6ddaf9a6a086cb9af7a6c31\""
+...
+----
++
+The log might show the image pull source twice, as shown in the preceding example.
++
+If your `ImageContentSourcePolicy` object lists multiple mirrors, {product-title} attempts to pull the images in the order listed in the configuration, for example:
++
+----
+Trying to access \"li0317gcp1.mirror-registry.qe.gcp.devcluster.openshift.com:5000/ocp/release@sha256:1926eae7cacb9c00f142ec98b00628970e974284b6ddaf9a6a086cb9af7a6c31\"
+Trying to access \"li0317gcp2.mirror-registry.qe.gcp.devcluster.openshift.com:5000/ocp/release@sha256:1926eae7cacb9c00f142ec98b00628970e974284b6ddaf9a6a086cb9af7a6c31\"
+----
+
+// END PROCESSING: /home/aireilly/asciidoctor-extract-keywords/doc/modules/viewing-the-image-pull-source.adoc
+
+//Getting cluster version, status, and update details
+// START PROCESSING: /home/aireilly/asciidoctor-extract-keywords/doc/modules/getting-cluster-version-status-and-update-details.adoc
+// Module included in the following assemblies:
+//
+// *installing/validating-an-installation.adoc
+
+:_mod-docs-content-type: PROCEDURE
+:keywords: pasta, rice, eggs
+[id="getting-cluster-version-and-update-details_{context}"]
+= Getting cluster version, status, and update details
+
+You can view the cluster version and status by running the `oc get clusterversion` command. If the status shows that the installation is still progressing, you can review the status of the Operators for more information.
+
+You can also list the current update channel and review the available cluster updates.
+
+.Prerequisites
+
+* You have access to the cluster as a user with the `cluster-admin` role.
+* You have installed the OpenShift CLI (`oc`).
+
+.Procedure
+
+. Obtain the cluster version and overall status:
++
+[source,terminal]
+----
+$ oc get clusterversion
+----
++
+.Example output
+[source,terminal]
+----
+NAME      VERSION   AVAILABLE   PROGRESSING   SINCE   STATUS
+version   4.6.4     True        False         6m25s   Cluster version is 4.6.4
+----
++
+The example output indicates that the cluster has been installed successfully.
+
+. If the cluster status indicates that the installation is still progressing, you can obtain more detailed progress information by checking the status of the Operators:
++
+[source,terminal]
+----
+$ oc get clusteroperators.config.openshift.io
+----
+
+. View a detailed summary of cluster specifications, update availability, and update history:
++
+[source,terminal]
+----
+$ oc describe clusterversion
+----
+
+. List the current update channel:
++
+[source,terminal]
+----
+$ oc get clusterversion -o jsonpath='{.items[0].spec}{"\n"}'
+----
++
+.Example output
+[source,terminal]
+----
+{"channel":"stable-4.6","clusterID":"245539c1-72a3-41aa-9cec-72ed8cf25c5c"}
+----
+
+. Review the available cluster updates:
++
+[source,terminal]
+----
+$ oc adm upgrade
+----
++
+.Example output
+[source,terminal]
+----
+Cluster version is 4.6.4
+
+Updates:
+
+VERSION IMAGE
+4.6.6   quay.io/openshift-release-dev/ocp-release@sha256:c7e8f18e8116356701bd23ae3a23fb9892dd5ea66c8300662ef30563d7104f39
+----
+
+// END PROCESSING: /home/aireilly/asciidoctor-extract-keywords/doc/modules/getting-cluster-version-status-and-update-details.adoc

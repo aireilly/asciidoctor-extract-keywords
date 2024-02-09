@@ -1,0 +1,25 @@
+---
+- file: validating-an-installation
+  path: "/home/aireilly/asciidoctor-extract-keywords/doc/validating-an-installation.adoc"
+  keywords:
+  - ham
+  - egg
+  - cheese
+- file: reviewing-the-installation-log
+  path: "/home/aireilly/asciidoctor-extract-keywords/doc/modules/reviewing-the-installation-log.adoc"
+  keywords:
+  - butter
+  - bread
+  - chicken
+- file: viewing-the-image-pull-source
+  path: "/home/aireilly/asciidoctor-extract-keywords/doc/modules/viewing-the-image-pull-source.adoc"
+  keywords:
+  - avocados
+  - tomatoes
+  - pesto
+- file: getting-cluster-version-status-and-update-details
+  path: "/home/aireilly/asciidoctor-extract-keywords/doc/modules/getting-cluster-version-status-and-update-details.adoc"
+  keywords:
+  - pasta
+  - rice
+  - eggs
